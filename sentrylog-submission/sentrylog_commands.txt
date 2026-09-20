@@ -1,0 +1,165 @@
+    1  ip -4 a
+    2  nmcli device status
+    3  exit
+    4  useradd editor
+    5  mkdir -p /srv/media/proj2019 /srv/media/proj2020 /srv/media/raw
+    6  dd if=/dev/zero of=/srv/media/raw/render1.bin bs=1M count=150
+    7  dd if=/dev/zero of=/srv/media/proj2019/footage.bin bs=1M count=120
+    8  dd if=/dev/zero of=/srv/media/proj2020/clip.bin bs=1M count=30
+    9  echo "notes" > /srv/media/proj2020/notes.txt
+   10  touch -d '300 days ago' /srv/media/raw/render1.bin
+   11  touch -d '200 days ago' /srv/media/proj2019/footage.bin
+   12  touch -d '250 days ago' /srv/media/proj2020/notes.txt
+   13  chown editor /srv/media/proj2020/clip.bin /srv/media/raw/render1.bin
+   14  ls -lh /srv/media/*
+   15  lsblk
+   16  lsblk -fp
+   17  df -h
+   18  df -H
+   19  du -xh --max-depth=1 / 2>/dev/null | sort -rh | head -10
+   20  du -sh /srv/* /var/* 2>/dev/null | sort -rh | head
+   21  find / -xdev -type f -size +100M 2>/dev/null
+   22  find /srv /home -type f -mtime +180 2>/dev/null
+   23  find /srv /home -type f -mmin +259200 2>/dev/null
+   24  find / -xdev -type f -user editor 2>/dev/null
+   25  mkdir ~/linktest
+   26  cd ~/linktest
+   27  dd if=/dev/zero of=orig.bin bs=1M count=200
+   28  df -h .
+   29  ln orig.bin hard.bin
+   30  ln -s orig.bin soft.bin
+   31  ls -li
+   32  stat orig.bin
+   33  rm orig.bin
+   34  ls -li
+   35  df -h .
+   36  cat hard.bin | wc -c
+   37  cat soft.bin
+   38  find . -type l
+   39  rm hard.bin
+   40  df -h .
+   41  cd ~/rhel-mini-projects/02-diskdetective
+   42  echo "=== Storage Audit $(date) ===" > storage_audit.txt
+   43  echo "--- Filesystem usage ---" | tee -a storage_audit.txt
+   44  df -h 2>/dev/null | tee -a storage_audit.txt
+   45  echo "--- Top 10 largest files ---" | tee -a storage_audit.txt
+   46  find /srv /home /var -type f -exec du -h {} + 2>/dev/null | sort -rh | head -10 | tee -a storage_audit.txt
+   47  echo "--- Stale files (not modified in 180 days) ---" | tee -a storage_audit.txt
+   48  find /srv /home -type f -mtime +180 2>/dev/null | tee -a storage_audit.txt
+   49  echo "--- Stale file count ---" | tee -a storage_audit.txt
+   50  find /srv /home -type f -mtime +180 2>/dev/null | wc -l | tee -a storage_audit.txt
+   51  echo "--- Total reclaimable space ---" | tee -a storage_audit.txt
+   52  find /srv /home -type f -mtime +180 -print0 2>/dev/null | du -ch --files0-from=- | tail -1 | tee -a storage_audit.txt
+   53  cat storage_audit.txt
+   54  lsblk
+   55  fdisk /dev/sdb
+   56  lsblk /dev/sdb
+   57  mkfs.xfs /dev/sdb1
+   58  mkdir /mnt/archive
+   59  lsblk -fp /dev/sdb
+   60  UUID=$(blkid -s UUID -o value /dev/sdb1)
+   61  echo $UUID
+   62  mount UUID="$UUID" /mnt/archive
+   63  mount | grep archive
+   64  df -h /mnt/archive
+   65  find /srv -type f -mtime +180 -exec cp -p --parents {} /mnt/archive/ \;
+   66  find /mnt/archive -type f
+   67  du -sh /mnt/archive
+   68  df -h /mnt/archive
+   69  cd ~
+   70  umount /mnt/archive
+   71  df -h | grep archive
+   72  cd ~/rhel-mini-projects/02-diskdetective
+   73  lsblk > evidence_lsblk.txt
+   74  df -h > evidence_df.txt
+   75  mount | grep archive > evidence_mount.txt
+   76  exit
+   77  ls
+   78  lsblk
+   79  fdisk /dev/sda
+   80  lsblk /dev/sda
+   81  mkfs.xfs /dev/sda1
+   82  lsblk -fp /dev/sda
+   83  mkdir /archive
+   84  mount UUID="<paste-uuid-from-lsblk>" /archive
+   85  mount | grep archive
+   86  df -h /archive
+   87  find /srv/media -type f -mtime +180 -exec cp -p --parents {} /archive/ \;
+   88  find /archive -type f
+   89  du -sh /archive
+   90  df -h /archive
+   91  lsblk > evidence_lsblk.txt
+   92  df -h > evidence_df.txt
+   93  mount | grep archive > evidence_mount.txt
+   94  cat evidence_mount.txt
+   95  cd /
+   96  umount /archive
+   97  df -h | grep archive
+   98  cd /home/mdas/onboardops-submission/02-diskdetective
+   99  exit
+  100  rm -rf /archive/srv
+  101  ls /archive
+  102  blkid /dev/sda1
+  103  UUID=$(blkid -s UUID -o value /dev/sda1)
+  104  echo $UUID
+  105  mount UUID="$UUID" /archive
+  106  mount | grep archive
+  107  df -h /archive
+  108  find /srv/media -type f -mtime +180 -exec cp -p --parents {} /archive/ \;
+  109  find /archive -type f
+  110  du -sh /archive
+  111  df -h /archive
+  112  lsblk -fp /dev/sda > evidence_lsblk.txt
+  113  df -h > evidence_df.txt
+  114  mount | grep archive > evidence_mount.txt
+  115  cat evidence_mount.txt
+  116  cd /
+  117  umount /archive
+  118  df -h | grep archive
+  119  cd /home/mdas/onboardops-submission/02-diskdetective
+  120  exit
+  121  cd /home/mdas/onboardops-submission/02-diskdetective
+  122  script -a commands.txt
+  123  ls
+  124  lsblk
+  125  cd /home/mdas/onboardops-submission/02-diskdetective
+  126  script -a commands.txt
+  127  rm -rf 02-diskdetective
+  128  ls
+  129  cd ~
+  130  mkdir rhel-mini-projects
+  131  mv onboardops-submission rhel_mini_project/
+  132  ls rhel_mini_project
+  133  ls -ld /root/rhel_mini_project /root/rhel_mini_projects 2>/dev/null
+  134  find /root/rhel_mini_project -maxdepth 2 -type f -printf '%p\n' 2>/dev/null
+  135  ls -R rhel_mini_project
+  136  mkdir -p rhel_mini_project/onboardops-submission
+  137  mv rhel_mini_project/commands.txt rhel_mini_project/provision.sh rhel_mini_project/README.md rhel_mini_project/verification_output.txt rhel_mini_project/verify.sh rhel_mini_project/onboardops-submission/
+  138  ls -R rhel_mini_project
+  139  exit
+  140  mkdir -p /var/log/journal
+  141  systemd-tmpfiles --create --prefix /var/log/journal
+  142  systemctl restart systemd-journald
+  143  journalctl --list-boots
+  144  dnf install -y chrony
+  145  systemctl enable --now chronyd
+  146  chronyc tracking
+  147  nano sentrylog.sh
+  148  chmod +x sentrylog.sh
+  149  mv sentrylog.sh /usr/local/bin/sentrylog.sh
+  150  /usr/local/bin/sentrylog.sh
+  151  cat /var/log/sentrylog_report.txt
+  152  nano /etc/systemd/system/sentrylog.service
+  153  nano /etc/systemd/system/sentrylog.timer
+  154  systemctl daemon-reload
+  155  systemctl enable --now sentrylog.timer
+  156  systemctl list-timers | grep sentrylog
+  157  nano /etc/tmpfiles.d/sentrylog-cleanup.conf
+  158  systemd-tmpfiles --create /etc/tmpfiles.d/sentrylog-cleanup.conf
+  159  crontab -e
+  160  crontab -l
+  161  systemctl list-timers | grep sentrylog
+  162  crontab -l
+  163  cat /etc/tmpfiles.d/sentrylog-cleanup.conf
+  164  cat /var/log/sentrylog_report.txt
+  165  history > sentrylog_commands.txt

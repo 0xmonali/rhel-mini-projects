@@ -1,0 +1,24 @@
+===== SentryLog Security Digest — Sun Sep 20 12:40:03 PM EDT 2026 =====
+
+--- Failed login attempts (last 24 hours) ---
+
+--- Service failures (priority: error and above) ---
+Sep 20 12:34:33 localhost kernel: [Firmware Bug]: cpu 0, try to use APIC520 (LVT offset 2) for vector 0xf4, but the register is already in use for vector 0x0 on this cpu
+Sep 20 12:34:33 localhost kernel: [Firmware Bug]: cpu 1, try to use APIC520 (LVT offset 2) for vector 0xf4, but the register is already in use for vector 0x0 on this cpu
+Sep 20 12:34:34 localhost kernel: Warning: Unmaintained driver is detected: cnic
+Sep 20 12:34:34 localhost kernel: Warning: Unmaintained driver is detected: cnic_init
+Sep 20 12:34:34 localhost kernel: Warning: Unmaintained driver is detected: bnx2i
+Sep 20 12:34:34 localhost kernel: Warning: Unmaintained driver is detected: bnx2i_mod_init
+Sep 20 12:34:43 localhost systemd[1]: Failed to mount run-vmblock\x2dfuse.mount - VMware vmblock Fuse Mount.
+Sep 20 12:34:45 localhost kernel: piix4_smbus 0000:00:07.3: SMBus base address uninitialized - upgrade BIOS or use force_addr=0xaddr
+Sep 20 12:34:45 localhost kernel: Warning: Unmaintained driver is detected: mptbase
+Sep 20 12:34:45 localhost kernel: Warning: Unmaintained driver is detected: fusion_init
+Sep 20 12:34:46 localhost kernel: Warning: Unmaintained driver is detected: mptscsih
+Sep 20 12:34:46 localhost kernel: Warning: Unmaintained driver is detected: mptspi
+Sep 20 12:34:46 localhost kernel: Warning: Unmaintained driver is detected: mptspi_init
+Sep 20 12:34:49 localhost alsactl[1334]: alsa-lib main.c:1554:(snd_use_case_mgr_open) error: failed to import hw:0 use case configuration -2
+Sep 20 12:35:12 localhost.localdomain gdm-password][2537]: gkr-pam: unable to locate daemon control file
+Sep 20 12:35:17 localhost.localdomain systemd[2547]: Failed to start app-gnome-xdg\x2duser\x2ddirs-2675.scope - Application launched by gnome-session-binary.
+
+--- Failure count check ---
+OK: 0 failed login attempts (within normal range).
