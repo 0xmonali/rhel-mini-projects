@@ -1,0 +1,38 @@
+groupadd devteam
+getent group devteam
+useradd -m -s /bin/bash -G devteam alice
+id alice
+passwd alice
+useradd -m -s /bin/bash -G devteam bob
+passwd bob
+useradd -m -s /bin/bash -G devteam carol
+passwd carol
+chage -M 60 -W 7 -d 0 alice
+chage -M 60 -W 7 -d 0 bob
+chage -M 60 -W 7 -d 0 carol
+chage -l alice
+chage -l bob
+chage -l carol
+echo "alice ALL=(ALL) ALL" > /etc/sudoers.d/alice-fulladmin
+chmod 440 /etc/sudoers.d/alice-fulladmin
+sudo -l -U alice
+sudo -l -U bob
+mkdir -p /shared/project
+chown root:devteam /shared/project
+chmod 2775 /shared/project
+chmod +t /shared/project
+ls -ld /shared/project
+su - alice -c "touch /shared/project/test_alice.txt"
+ls -l /shared/project/test_alice.txt
+su - bob -c "rm /shared/project/test_alice.txt"
+mv /etc/sudoers.d/alice-fulladmin /etc/sudoers.d/alice
+sudo -l -U alice
+ls -ld /shared/project
+id alice
+id bob
+id carol
+chage -l alice
+cd /tmp
+{ echo "--- id ---"; id alice; id bob; id carol; echo "--- chage -l alice ---"; chage -l alice; echo "--- chage -l bob ---"; chage -l bob; echo "--- chage -l carol ---"; chage -l carol; echo "--- sudo -l ---"; sudo -l -U alice; sudo -l -U bob; sudo -l -U carol; echo "--- shared folder ---"; ls -ld /shared/project; } > verification_output.txt
+cat verification_output.txt
+cp verification_output.txt /root/verification_output.txt
