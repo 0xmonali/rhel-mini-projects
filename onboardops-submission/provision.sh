@@ -6,7 +6,7 @@ USERS=("alice" "bob" "carol")
 SUDO_USER_NAME="alice"
 SHARED_DIR="/shared/project"
 
-echo "== Ch10: Create group and users =="
+echo "== Create group and users =="
 groupadd -f "$GROUP"
 
 for u in "${USERS[@]}"; do
@@ -17,12 +17,12 @@ for u in "${USERS[@]}"; do
     echo "$u:ChangeMe123!" | chpasswd
 done
 
-echo "== Ch10: Password aging policy =="
+echo "== Password aging policy =="
 for u in "${USERS[@]}"; do
     chage -M 60 -W 7 -d 0 "$u"
 done
 
-echo "==  Superuser access via /etc/sudoers.d =="
+echo "== Superuser access via /etc/sudoers.d =="
 SUDOERS_FILE="/etc/sudoers.d/${SUDO_USER_NAME}"
 echo "${SUDO_USER_NAME} ALL=(ALL) ALL" > "$SUDOERS_FILE"
 chmod 440 "$SUDOERS_FILE"
